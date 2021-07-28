@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block body %}
+
+<style>
+    .profilePage {
+        width: 40%;
+        height: 80vh;
+        margin: 40px auto;
+    }
+
+    .profileTop {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .crop {
+        left: 130px;
+        top: 150px;
+        position: absolute;
+        max-width: 300px;
+        background-color: rgba(214, 210, 210, 0.616);
+        padding-bottom: 12px;
+        padding-right: 12px;
+    }
+
+    .cr-boundary {
+        background-color: rgb(255, 255, 255);
+    }
+
+    .cr-slider-wrap {
+        display: none !important;
+    }
+
+    #ppimage {
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .profileTop div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profileTop div p {
+        color: #ff914d;
+    }
+
+    .profileTop div p:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .profileTop a {
+        color: #ff914d;
+        text-decoration: none;
+    }
+
+    .profileTop a:hover {
+        text-decoration: underline;
+    }
+
+    .profileBottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .profileBottom a {
+        color: #dc3545;
+    }
+</style>
+
+
+<div class="container">
+    <div class="profilePage">
+
+        <h5 style="text-align: center; font-weight: bold;">GİRİŞ YAP</h5>
+
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="container">
+                    <input required type="email" name="email" placeholder="E-posta adresi">
+                    <input required type="password" name="password" placeholder="Şifre giriniz">
+
+                    <div style="display: flex; justify-content: space-between;">
+
+                        <label class="check">
+                            <p> Beni Hatırla</p>
+                            <input type="checkbox" value="lsRememberMe" id="rememberMe" />
+                            <span class="checkbox"></span>
+                            <a class="forget" href="{% url 'password_reset' %}">Şifremi Unuttum!</a>
+                        </label>
+
+                    </div>
+
+                </div>
+                <div style="display: flex; align-items:baseline">
+                    <div>
+                        {% for field in login_form %}
+                        <p>
+                            {% for error in field.errors %}
+                        <p style="color: rgb(255, 35, 64)">{{ error }}</p>
+                        {% endfor %}
+                        </p>
+                        {% endfor %}
+                        {% if login_form.non_field_errors %}
+                        <div style="color: rgb(255, 35, 46)">
+                            <p>{{login_form.non_field_errors}}</p>
+                        </div>
+
+                        {% endif %}
+                    </div>
+                    <input type="submit" style="background-color: #dc3545;" value="Giriş Yap" class="btn right">
+                </div>
+            </form>
+            <div class="contentFooter">
+                <a href="{% provider_login_url 'google' %}">Login with Google</a>
+                <p>Hesabın Yok Mu? <a href="{% url 'userprofile:register' %}">Kaydol</a></p>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const rmCheck = document.getElementById("rememberMe"),
+        emailInput = document.getElementById("email");
+
+
+
+    if (localStorage.checkbox && localStorage.checkbox !== "") {
+        rmCheck.setAttribute("checked", "checked");
+        emailInput.value = localStorage.username;
+    } else {
+        rmCheck.removeAttribute("checked");
+        emailInput.value = "";
+    }
+
+    function lsRememberMe() {
+
+        if (rmCheck.checked && emailInput.value !== "") {
+
+            localStorage.username = emailInput.value;
+            localStorage.checkbox = rmCheck.value;
+        } else {
+
+            localStorage.username = "";
+            localStorage.checkbox = "";
+        }
+    }
+</script>
+{% endblock body %}

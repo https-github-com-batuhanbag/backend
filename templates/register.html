@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<style>
+    .terms {
+        text-decoration: none !important;
+        color: black;
+    }
+
+    .terms:hover {
+        text-decoration: underline !important;
+        color: #ff914d !important;
+    }
+
+
+    .profilePage {
+        width: 40%;
+        height: 80vh;
+        margin: 40px auto;
+    }
+
+    .profileTop {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .crop {
+        left: 130px;
+        top: 150px;
+        position: absolute;
+        max-width: 300px;
+        background-color: rgba(214, 210, 210, 0.616);
+        padding-bottom: 12px;
+        padding-right: 12px;
+    }
+
+    .cr-boundary {
+        background-color: rgb(255, 255, 255);
+    }
+
+    .cr-slider-wrap {
+        display: none !important;
+    }
+
+    #ppimage {
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .profileTop div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profileTop div p {
+        color: #ff914d;
+    }
+
+    .profileTop div p:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .profileTop a {
+        color: #ff914d;
+        text-decoration: none;
+    }
+
+    .profileTop a:hover {
+        text-decoration: underline;
+    }
+
+    .profileBottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .profileBottom a {
+        color: #dc3545;
+    }
+</style>
+<div class="container">
+    <div class="profilePage">
+
+        <h5 style="text-align: center; font-weight: bold;">ÜYE OL</h5>
+
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <input required type="text" name="fullName" placeholder="Ad Soyad">
+                <input type="email" required name="email" placeholder="E-posta">
+                <input type="password" required name="password1" placeholder="Şifre">
+                <input type="password" required name="password2" placeholder="Şifre Tekrar">
+                <div class="accType" style="margin-top: 3%;">
+                    <label class="check">
+                        <p> Erkek</p>
+                        <input name="gender" value="m" type="radio" />
+                        <span class="checkbox"></span>
+                    </label>
+                    <label class="check">
+                        <p> Kadın</p>
+                        <input name="gender" value="f" type="radio" />
+                        <span class="checkbox"></span>
+                    </label>
+
+                </div>
+                <label class="check" style="width: 200px;">
+                    <a href="#" class="terms">Şartlar ve Koşullar</a>
+                    <input required type="checkbox" />
+                    <span class="checkbox"></span>
+                </label>
+
+        </div>
+        <button type="submit" style="background-color: #dc3545;" class="btn right">Üye Ol</button>
+        </form>
+        <div class="contentFooter">
+            <p>Zaten Hesabın Var mı? <a href="{% url 'userprofile:login' %}">Giriş yap</a></p>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock body %}
