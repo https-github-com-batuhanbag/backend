@@ -106,28 +106,33 @@ def user_view(request):
 
     context = {}
 
-    form = AccountUptadeForm(
-        request.POST, request.FILES, instance=request.user)
+    print(request)
 
-    if form.is_valid():
-        print("code is here 3 ")
-        form.initial = {
-            "email": request.POST['email'],
-            "fullName": request.POST['fullName'],
-            "account_avatar": request.FILES.get('account_avatar'),
-            "website": request.POST['website'],
-            "country": request.POST['country'],
-            "city": request.POST['city'],
-            "birthdate": request.POST['birthdate'],
-            "biography": request.POST['biography'],
-            "job": request.POST['job'],
+    if request.POST or request.FILES:
 
-        }
-        print(form.initial)
+        form = AccountUptadeForm(
+            request.POST, request.FILES,
+            instance=request.user)
 
-        context['succes_message'] = "Başarıyla Güncellendi."
+        if form.is_valid():
 
-        form.save()
+            form.initial = {
+                "email": request.POST['email'],
+                "fullName": request.POST['fullName'],
+                "account_avatar": request.FILES.get('account_avatar'),
+                "website": request.POST['website'],
+                "country": request.POST['country'],
+                "city": request.POST['city'],
+                "birthdate": request.POST['birthdate'],
+                "biography": request.POST['biography'],
+                "job": request.POST['job'],
+
+            }
+            print(form.initial)
+
+            context['succes_message'] = "Başarıyla Güncellendi."
+
+            form.save()
 
     else:
         form = AccountUptadeForm(
