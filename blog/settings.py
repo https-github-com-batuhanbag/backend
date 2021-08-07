@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_social_share',
     "ckeditor",
     'django_cleanup',
+    'multiselectfield',
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

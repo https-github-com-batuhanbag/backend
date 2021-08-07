@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+{% load social_share %}
+{% block body %}
+<div class="row">
+
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+
+        <!-- Title -->
+        <h3 class="mt-4">{{article.title}}</h3>
+
+        <!-- Author -->
+        <p class="lead">
+            {% if article.author.fullName %}
+            {{article.author.fullName}} tarafından yayınlandı
+            {% else %}
+
+            {% endif %}
+
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>{{article.created_date}}</p>
+
+        <hr>
+
+        <!-- Preview Image -->
+        {% if article.article_image %}
+        <img class="img-fluid rounded" src="{{article.article_image.url}}" alt="">
+        {% endif %}
+
+
+        <hr>
+
+        <!-- Post Content -->
+        <p class="lead">
+            {{article.content|safe}}
+        </p>
+        <p style="margin-top: 5%">
+            okunma {{ article.read }}
+        </p>
+
+        <div class="col-md-1 hideLeftLike">
+            <div class="contentLike leftContentLike">
+                <form method="POST" id="like">
+                    {% csrf_token %}
+                    <button style="cursor: pointer" id="likeButton" type="submit" name="post_id" value="{{article.id}}">
+                        <i id="icon" class="far fa-thumbs-up fa-lg"></i>
+                    </button>
+                </form>
+                <form method="POST" id="favourite">
+                    <button type="submit">
+                        <i class="far fa-bookmark fa-lg" id="favourite_icon"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+            Facebook
+        </a>
+        <br>
+
+        <a target="_blank" href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">
+            Twitter
+        </a>
+        <br>
+        <a target="_blank" href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>Share on
+            Google+</a>
+        <br>
+        <a target="_blank"
+            href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title=Unlock%20to%20Learn%20Swift%20for%20Free!%20By%20Swift%20for%20Entrepreneurs.%20Made%20for%20Non%20Techincals.">
+            Reddit</a>
+        <br>
+        {% post_to_whatsapp object_or_url " WA" %}
+        <br>
+        {% post_to_linkedin object_or_url " linkedin" %}
+
+        <hr>
+
+        <div class="commentForce">
+            {% if request.user.is_authenticated %}
+            <h5>Yorum yaz</h5>
+
+            {% else %}
+            <p>
+                yorum yapmak için
+                <a href="{% url 'userprofile:login' %}">giriş</a> yapmalısınız
+            </p>
+
+
+        </div>
+
+        {% if request.user.is_authenticated %}
+        <form class="writeCommentwrap" action="{% url 'article:comment'  article.id %}" method="post">
+            {% csrf_token %}
+            <div class="writeComment">
+                <textarea name="comment_content" placeholder="Yorum Yaz..." cols="103" rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn right">Yorum Yap</button>
+        </form>
+        <hr>
+        {% endif %} {% if comments %} {% for comment in comments %}
+        <div class="commentsPart">
+            {% if comment.comment_photo %}
+            <img class="d-flex mr-3 rounded-circle" src="{{comment.comment_photo.url}}" alt="" style="width: 75px;">
+
+            {% else %}
+            <img class="d-flex mr-3 rounded-circle" src="https://i.pravatar.cc/75" alt="">
+            {% endif %}
+            <div class="commentsPartright">
+                <div>
+                    <h6>{{comment.comment_author}}</h6>
+                    <time> {{comment.comment_date}} </time>
+                </div>
+                <p>{{comment.comment_content}}</p>
+            </div>
+        </div>
+        {% endfor %} {% else %}
+
+        <div class="commentsPart">
+            <div class="commentsPartright">
+                <div style="margin-top: 3%">
+                    Bu röportaja yorum yapılmamıştır.İlk yorumu yapan siz olun!
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+    </div>
+</div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).on("submit", "#like", function (e) {
+        console.log($("input[name=csrfmiddlewaretoken]").val());
+        e.preventDefault();
+
+        $.post(
+            '{% url "article:like_post" article.id  %}',
+            {
+                post_id: $("#likeButton").val(),
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            function (data, success) {
+                const id = document.getElementById("icon");
+                const id1 = document.getElementById("icon1");
+                if (id.classList.contains("fas")) {
+                    id.classList.remove("fas");
+                    id.classList.toggle("far");
+                    id1.classList.remove("fas");
+                    id1.classList.toggle("far");
+                } else if (id.classList.contains("far")) {
+                    id.classList.toggle("fas");
+                    id.classList.remove("far");
+                    id1.classList.toggle("fas");
+                    id1.classList.remove("far");
+                }
+            }
+        );
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).on("submit", "#favourite", function (e) {
+        e.preventDefault();
+
+        $.post(
+            "{% url 'article:favourite_post' article.id %}",
+            {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            function (data, success) {
+                console.log("success");
+                const id = document.getElementById("favourite_icon");
+                const id1 = document.getElementById("favourite_icon1");
+                if (id.classList.contains("fas")) {
+                    id.classList.remove("fas");
+                    id.classList.toggle("far");
+                    id1.classList.remove("fas");
+                    id1.classList.toggle("far");
+                } else if (id.classList.contains("far")) {
+                    id.classList.toggle("fas");
+                    id.classList.remove("far");
+                    id1.classList.toggle("fas");
+                    id1.classList.remove("far");
+                }
+            }
+        );
+    });
+</script>
+
+
+{% endblock body %}

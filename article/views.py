@@ -21,7 +21,37 @@ def articles(request):
 
 
 def index(request):
-    return render(request, "index.html")
+
+    articles = Article.objects.all()
+
+    slider_item = Article.objects.all()[:5]
+
+    science_count = Article.objects.filter(
+        article_category__contains="Bilim").count()
+
+    sport_count = Article.objects.filter(
+        article_category__contains="Spor").count()
+
+    culture_count = Article.objects.filter(
+        article_category__contains="Kültür").count()
+
+    art_count = Article.objects.filter(
+        article_category__contains="Sanat").count()
+
+    technology_count = Article.objects.filter(
+        article_category__contains="Teknoloji").count()
+
+    context = {
+        "articles": articles,
+        "slider_item": slider_item,
+        "science_count": science_count,
+        "art_count": art_count,
+        "culture_count": culture_count,
+        "sport_count": sport_count,
+        "technology_count": technology_count,
+    }
+
+    return render(request, "index.html", context)
 
 
 def about(request):
@@ -70,15 +100,18 @@ def detail(request, id):
     return render(request, "detail.html", context)
 
 
+@login_required(login_url="userprofile:login")
 def addComment(request, id):
     article = get_object_or_404(Article, id=id)
 
     if request.method == "POST":
-        comment_author = request.POST.get("comment_author")
+        comment_author = request.user.fullName
         comment_content = request.POST.get("comment_content")
+        comment_photo = request.user.account_avatar
 
         newComment = Comment(comment_author=comment_author,
-                             comment_content=comment_content)
+                             comment_content=comment_content,
+                             comment_photo=comment_photo)
 
         newComment.article = article
 
@@ -132,3 +165,23 @@ def favourite_list(request):
     }
 
     return render(request, "favourites.html", context)
+
+
+def category_science(request):
+    return render(request, "categories/science.html")
+
+
+def category_sport(request):
+    return render(request, "categories/sport.html")
+
+
+def category_technology(request):
+    return render(request, "categories/technology.html")
+
+
+def category_art(request):
+    return render(request, "categories/art.html")
+
+
+def category_culture(request):
+    return render(request, "categories/culture.html")

@@ -1,15 +1,258 @@
 {% extends "layout.html" %}
+{% load static %}
 
 {% block body %}
 
-<div class="jumbotron text-center">
-        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, qui.</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit ab debitis ducimus! Rem similique quas quaerat
-                tempora sapiente praesentium nulla obcaecati odio ut, tenetur ipsa fuga. Harum laudantium, repellendus
-                ipsa aut tempora reprehenderit consequatur modi vero eligendi quos et nemo nulla, voluptates tempore
-                soluta, nisi incidunt rem doloremque minima distinctio.</p>
-</div>
 
+
+
+<!----------------------------- Main Site Section ------------------------------>
+
+<main>
+
+        <!------------------------ Site Title ---------------------->
+        <div class="mainSlider">
+                <div class="container">
+                        <div class="slider">
+
+                                {% for slider in slider_item %}
+                                <div class="box1 box" style="background-image: url('{{slider.article_image.url}}'); background-repeat: no-repeat; 
+                background-size: cover;">
+                                        <div class="bg"></div>
+                                        <div class="details">
+                                                <h1>{{slider.title|safe|truncatewords:30}}</h1>
+                                                <p>
+
+                                                </p>
+                                                <button>Şimdi Oku</button>
+                                        </div>
+
+                                        <div class="illustration"></div>
+                                </div>
+                                {% endfor %}
+
+
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="prev" width="56.898" height="91"
+                                viewBox="0 0 56.898 91">
+                                <path d="M45.5,0,91,56.9,48.452,24.068,0,56.9Z" transform="translate(0 91) rotate(-90)"
+                                        fill="#fff" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="next" width="56.898" height="91"
+                                viewBox="0 0 56.898 91">
+                                <path d="M45.5,0,91,56.9,48.452,24.068,0,56.9Z" transform="translate(56.898) rotate(90)"
+                                        fill="#fff" />
+                        </svg>
+                        <div class="trail">
+                                <div class="box1 active"></div>
+                                <div class="box2"></div>
+                                <div class="box3"></div>
+                                <div class="box4"></div>
+                                <div class="box5"></div>
+                        </div>
+                </div>
+                <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/gsap-latest-beta.min.js"></script>
+                <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/CSSRulePlugin3.min.js"></script>
+
+                <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.2/CSSRulePlugin.min.js"></script> -->
+                <script src="{% static 'js/slider.js'%}"></script>
+        </div>
+        <!------------x----------- Site Title ----------x----------->
+
+        <!-- --------------------- Blog Carousel ----------------- -->
+
+
+        <!-- ----------x---------- Blog Carousel --------x-------- -->
+
+        <!-- ---------------------- Site Content -------------------------->
+
+        <section class="container">
+                <div class="site-content">
+                        <div class="posts">
+
+                                <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                                        {% for article in articles %}
+                                        <div class="post-image">
+                                                <div>
+                                                        <img src="{{article.article_image.url}}" class="img"
+                                                                alt="blog1">
+                                                </div>
+                                                <div class="post-info flex-row">
+                                                        <span><i
+                                                                        class="fas fa-user text-gray"></i>&nbsp;&nbsp;{{article.author.fullName}}</span>
+                                                        <span><i
+                                                                        class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{article.created_date|timesince}}</span>
+                                                        <span>2 Yorum</span>
+                                                </div>
+                                        </div>
+                                        <div class="post-title">
+                                                <a
+                                                        href="{% url 'article:detail' article.id %}">{{article.title|safe|truncatewords:20}}</a>
+                                                <p>{{article.content|safe|truncatewords:35}}
+                                                </p>
+                                                <button class="btn post-btn">Devamını gör&nbsp; <i
+                                                                class="fas fa-arrow-right"></i></button>
+
+                                        </div>
+                                        <hr>
+                                        {% endfor %}
+                                </div>
+
+
+
+                        </div>
+                        <aside class="sidebar">
+
+                                <div class="popular-post">
+
+                                        <div class="post-content" data-aos="flip-up" data-aos-delay="200">
+
+                                                <div class="post-image">
+                                                        <div>
+                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
+                                                                        alt="blog1">
+                                                        </div>
+                                                        <div class="post-info flex-row">
+                                                                <span style="color:black;"><i
+                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
+                                                                        14,
+                                                                        2019</span>
+                                                                <span style="color:black;">2 yorum</span>
+                                                        </div>
+                                                </div>
+                                                <div class="post-title">
+                                                        <a href="#">New data recording system to better analyse road
+                                                                accidents</a>
+                                                </div>
+                                        </div>
+                                        <div class="post-content" data-aos="flip-up" data-aos-delay="300">
+                                                <div class="post-image">
+                                                        <div>
+                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
+                                                                        alt="blog1">
+                                                        </div>
+                                                        <div class="post-info flex-row">
+                                                                <span style="color:black;"><i
+                                                                                class="fas fa-calendar-alt text-gray"
+                                                                                style="color:black;"></i>&nbsp;&nbsp;January
+                                                                        14,
+                                                                        2019</span>
+                                                                <span style="color:black;">2 Commets</span>
+                                                        </div>
+                                                </div>
+                                                <div class="post-title">
+                                                        <a href="#">New data recording system to better analyse road
+                                                                accidents</a>
+                                                </div>
+                                        </div>
+                                        <div class="post-content" data-aos="flip-up" data-aos-delay="400">
+                                                <div class="post-image">
+                                                        <div>
+                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
+                                                                        alt="blog1">
+                                                        </div>
+                                                        <div class="post-info flex-row">
+                                                                <span style="color:black;"><i
+                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
+                                                                        14,
+                                                                        2019</span>
+                                                                <span style="color:black;">2 Commets</span>
+                                                        </div>
+                                                </div>
+                                                <div class="post-title">
+                                                        <a href="#">New data recording system to better analyse road
+                                                                accidents</a>
+                                                </div>
+                                        </div>
+                                        <div class="post-content" data-aos="flip-up" data-aos-delay="500">
+                                                <div class="post-image">
+                                                        <div>
+                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
+                                                                        alt="blog1">
+                                                        </div>
+                                                        <div class="post-info flex-row">
+                                                                <span style="color:black;"><i
+                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
+                                                                        14,
+                                                                        2019</span>
+                                                                <span style="color:black;">2 Commets</span>
+                                                        </div>
+                                                </div>
+                                                <div class="post-title">
+                                                        <a href="#">New data recording system to better analyse road
+                                                                accidents</a>
+                                                </div>
+                                        </div>
+                                        <div class="post-content" data-aos="flip-up" data-aos-delay="600">
+                                                <div class="post-image">
+                                                        <div>
+                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
+                                                                        alt="blog1">
+                                                        </div>
+                                                        <div class="post-info flex-row">
+                                                                <span style="color:black;"><i
+                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
+                                                                        14,
+                                                                        2019</span>
+                                                                <span style="color:black;">2 Commets</span>
+                                                        </div>
+                                                </div>
+                                                <div class="post-title">
+                                                        <a href="#">New data recording system to better analyse road
+                                                                accidents</a>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="category">
+                                        <h2>Kategori</h2>
+                                        <ul class="category-list">
+                                                <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                                                        <a href="{% url 'article:category_science'  %}">Bilim</a>
+                                                        <span>({{science_count}})</span>
+                                                </li>
+                                                <li class="list-items" data-aos="fade-left" data-aos-delay="200">
+                                                        <a href="{% url 'article:category_culture'  %}">Kültür</a>
+                                                        <span>({{culture_count}})</span>
+                                                </li>
+                                                <li class="list-items" data-aos="fade-left" data-aos-delay="300">
+                                                        <a href="{% url 'article:category_art'  %}">Sanat</a>
+                                                        <span>({{art_count}})</span>
+                                                </li>
+                                                <li class="list-items" data-aos="fade-left" data-aos-delay="400">
+                                                        <a href="{% url 'article:category_technology'  %}">Teknoloji</a>
+                                                        <span>({{technology_count}})</span>
+                                                </li>
+                                                <li class="list-items" data-aos="fade-left" data-aos-delay="500">
+                                                        <a href="{% url 'article:category_sport'  %}">Spor</a>
+                                                        <span>({{sport_count}})</span>
+                                                </li>
+                                        </ul>
+                                </div>
+
+                                <!-- <div class="popular-tags">
+                        <h2>Popüler Kategoriler</h2>
+                        <div class="tags flex-row">
+                            <span class="tag" data-aos="flip-up" data-aos-delay="100">Software</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="200">technology</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="300">travel</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="400">illustration</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="500">design</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="600">lifestyle</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="700">love</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="800">project</span>
+                        </div>
+                    </div> -->
+                        </aside>
+                </div>
+        </section>
+
+        <!-- -----------x---------- Site Content -------------x------------>
+
+</main>
+
+<!---------------x------------- Main Site Section ---------------x-------------->
 
 
 {% endblock body %}

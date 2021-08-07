@@ -2,21 +2,50 @@ from os import read
 from django.db import models
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from multiselectfield import MultiSelectField
+
 from django.shortcuts import reverse
 # Create your models here.
 
 
 class Article(models.Model):
+
+    category = (
+
+        ('Bilim', 'Bilim'),
+        ('Teknoloji', 'Teknoloji'),
+        ('Spor', 'Spor'),
+        ('Kültür', 'Kültür'),
+        ('Sanat', 'Sanat'),
+
+    )
+
+    subtitle = (
+        ('Sağlık', 'Sağlık'),
+        ('Araba', 'Araba'),
+        ('Futbol', 'Futbol'),
+        ('Film', 'Film'),
+        ('Yazılım', 'Yazılım')
+    )
+
     author = models.ForeignKey(
         "userprofile.UserAccount", on_delete=models.CASCADE, verbose_name="Yazar ")
-    title = models.CharField(max_length=50, verbose_name="Başlık")
+    title = models.CharField(max_length=150, verbose_name="Başlık")
+    article_subtitle = models.TextField(
+        max_length=250, verbose_name="Alt Metin")
+
     content = RichTextUploadingField()
     created_date = models.DateTimeField(
         auto_now_add=True, verbose_name="Oluşturulma Tarihi")
+
+    article_category = models.CharField(
+        max_length=20, choices=category, default='Bilim', verbose_name="Makale Kategori")
+    category_subtitle = MultiSelectField(choices=subtitle)
+
     article_image = models.FileField(
         blank=True, null=True, verbose_name="Makaleye Fotoğraf Ekleyin")
     likes = models.ManyToManyField(
-        "userprofile.UserAccount", related_name="lieks", blank=True
+        "userprofile.UserAccount", related_name="likes", blank=True
     )
     favourite = models.ManyToManyField(
         "userprofile.UserAccount", related_name="favourite", blank=True
@@ -46,7 +75,7 @@ class Comment(models.Model):
         blank=True, null=True, verbose_name="Yoruma Fotograf Ekleyin"
     )
     comment_author = models.CharField(max_length=50, verbose_name="İsim")
-    comment_content = models.CharField(max_length=200, verbose_name="Yorum")
+    comment_content = RichTextUploadingField("Yorum")
     comment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

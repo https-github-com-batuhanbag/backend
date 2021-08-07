@@ -25,27 +25,31 @@
             <form id="profileUpdate" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form">
-                    <input type="file" accept="image/*" name="account_avatar" id="imgInput" />
 
+                    <input type="file" accept="image/*" name="account_avatar" id="imgInput" />
+                    <p>isim</p>
                     <input id="fullName" type="text" value="{{request.user.fullName}}" name="fullName"
                         placeholder="Ad Soyad" />
-
+                    <p>email</p>
                     <input id="email" type="email" readonly value="{{request.user.email}}" name="email"
                         style="cursor: not-allowed;" />
 
+                    <p>website</p>
                     <input id="website" type="text" value="{{request.user.website}}" name="website" />
-
+                    <p>ülke</p>
                     <input id="country" type="text" value="{{request.user.country}}" name="country"
                         placeholder="Ülke" />
 
-
+                    <p>city</p>
                     <input id="city" type="text" value="{{request.user.city}}" name="city" />
 
+                    <p>dogum tarih</p>
                     <input id="birthdate" type="text" value="{{request.user.birthdate}}" name="birthdate"
                         placeholder="Dogum Tarihi" />
 
-
+                    <p>biyografi</p>
                     <input id="biography" type="text" value="{{request.user.biography}}" name="biography" />
+                    <p>iş</p>
                     <input id="job" type="text" value="{{request.user.job}}" name="job" />
                 </div>
                 <div class="profileBottom">

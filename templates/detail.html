@@ -1,133 +1,206 @@
 {% extends "layout.html" %}
 {% load social_share %}
+{% load static %}
 {% block body %}
-<div class="row">
 
-  <!-- Post Content Column -->
-  <div class="col-lg-8">
-
-    <!-- Title -->
-    <h3 class="mt-4">{{article.title}}</h3>
-
-    <!-- Author -->
-    <p class="lead">
-      {% if article.author.fullName %}
-      {{article.author.fullName}} tarafından yayınlandı
-      {% else %}
-
-      {% endif %}
-
-    </p>
-
-    <hr>
-
-    <!-- Date/Time -->
-    <p>{{article.created_date}}</p>
-
-    <hr>
-
-    <!-- Preview Image -->
-    {% if article.article_image %}
-    <img class="img-fluid rounded" src="{{article.article_image.url}}" alt="">
-    {% endif %}
-
-
-    <hr>
-
-    <!-- Post Content -->
-    <p class="lead">
-      {{article.content|safe}}
-    </p>
-    <p style="margin-top: 5%">
-      okunma {{ article.read }}
-    </p>
-
-    <div class="col-md-1 hideLeftLike">
-      <div class="contentLike leftContentLike">
-        <form method="POST" id="like">
-          {% csrf_token %}
-          <button style="cursor: pointer" id="likeButton" type="submit" name="post_id" value="{{article.id}}">
-            <i id="icon" class="far fa-thumbs-up fa-lg"></i>
-          </button>
-        </form>
-        <form method="POST" id="favourite">
-          <button type="submit">
-            <i class="far fa-bookmark fa-lg" id="favourite_icon"></i>
-          </button>
-        </form>
-      </div>
-    </div>
+<link rel="stylesheet" href="{% static 'css/shareModal.scss' %}">
 
 
 
-    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
-      Facebook
-    </a>
-    <br>
-
-    <a target="_blank" href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">
-      Twitter
-    </a>
-    <br>
-    <a target="_blank" href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>Share on Google+</a>
-    <br>
-    <a target="_blank"
-      href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title=Unlock%20to%20Learn%20Swift%20for%20Free!%20By%20Swift%20for%20Entrepreneurs.%20Made%20for%20Non%20Techincals.">
-      Reddit</a>
-    <br>
-    {% post_to_whatsapp object_or_url " WA" %}
-    <br>
-    {% post_to_linkedin object_or_url " linkedin" %}
-
-    <hr>
 
 
-
-    <h4>Yorumlar</h4>
-    <hr>
-    {% if comments %}
-    {% for comment in comments %}
-    <div class="media mb-4">
-      <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-      <div class="media-body">
-        <h5 class="mt-0">{{comment.comment_author}}</h5>
-        {{comment.comment_date}} <br>
-        {{comment.comment_content}}
-      </div>
-    </div>
-    {% endfor %}
+<!-- ------------x---------------  TExt İmage --------------------------x------------------- -->
+<div class="container1">
+  <img class="detailsimg" src="{{article.article_image.url}}" alt="İmage">
+  <h2 class="imgHeaderText">{{article.title}}</h2>
+</div>
 
 
-    {% else %}
-    <div class="alert alert-danger">
-      Bu makaleye herhangi bir yorum yazılmamış,ilk yorum yapan siz olun!
-    </div>
-    {% endif %}
+<!-- ------------x---------------  TExt İmage  --------------------------x------------------- -->
+<!-- ------------x---------------  Text Detail --------------------------x------------------- -->
 
-    <div class="card my-4">
-      <h5 class="card-header">Yorum Ekle:</h5>
-      <div class="card-body">
-        <form method="post" action="{% url 'article:comment' article.id %}">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="formGroupExampleInput">İsim</label>
-            <input name="comment_author" type="text" class="form-control" id="formGroupExampleInput"
-              placeholder="İsminizi girin">
-          </div>
-          <div class="form-group">
-            <label for="formGroupExampleInput">Yorum</label>
-            <textarea name="comment_content" class="form-control" rows="3"></textarea>
-          </div>
-          <button type="submit" class="btn btn-danger">Ekle</button>
-        </form>
-      </div>
-    </div>
+<div class="detailText">
+  <p>{{article.created_date|timesince}}</p>
+  <div class="likeComment">
+    <i class="fas fa-heart">{{total_likes}}</i>
+    <i class="fas fa-eye">{{article.read}}</i>
   </div>
 
 </div>
 
+<!-- ------------x---------------  Text Detail --------------------------x------------------- -->
+<!-- gRİD -->
+<div class="grid">
+  <div class="grid1">
+    <p>{{article.content|safe}}</p>
+
+
+    <!-- <div class="textFoto">
+      <img src="" alt="">
+    </div> -->
+    <div class="shareBar">
+      <!-- <form method="POST" id="like">
+        
+        {% csrf_token %}
+        <button style="cursor: pointer" id="likeButton" type="submit" name="post_id" value="{{article.id}}">
+          <i id="icon" class="far fa-thumbs-up fa-lg"></i>
+          Gönderiyi Beğen
+      </button>
+      </form> -->
+      <!-- <form method="POST" id="favourite">
+        
+        <button type="submit">
+            <i class="far fa-bookmark fa-lg" id="favourite_icon"></i>
+        </button>
+    </form> -->
+
+      <i class="fas fa-bookmark"> Gönderiyi Kaydet</i>
+      <i class="fas fa-share-alt"> Gönderiyi Beğen</i>
+
+      <i class="fas fa-share-alt"> Gönderiyi Beğen</i>
+
+
+
+
+    </div>
+
+
+
+    <div class="writerTextImg">
+      <div class="writer">
+        <img src="{{article.author.account_avatar.url}}" alt="avatar">
+
+
+      </div>
+      <a href=""> {{article.author.fullName}}<p>{{article.author.job}}</p></a>
+
+
+    </div>
+
+    <!-- Yorum -->
+    <div class="commentBar">
+      {% if request.user.is_authenticated %}
+      <h1>Yorum Yap</h1>
+      <hr>
+      {% else %}
+      <p>
+        yorum yapmak için
+        <button class="btnModal" onclick="document.getElementById('myModal').style.display='block'">giriş </button>
+        yapmalısınız
+      </p>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+      <form action=" {% url 'article:comment' article.id %}" method="post">
+        {% csrf_token %}
+
+        <textarea name="comment_content" style="color: black;" class="feedback-input" placeholder="Yorum"></textarea>
+        <input type="submit" value="Gönder" />
+      </form>
+
+      <hr>
+      {% endif %}
+
+      <!-- Contenedor Principal -->
+      <div class="comments-container">
+
+
+        <ul id="comments-list" class="comments-list">
+
+
+          <li>
+            {% if comments %}
+            {% for comment in comments %}
+            <div class="comment-main-level">
+              <!-- Avatar -->
+              {% if comment.comment_photo %}
+              <div class="comment-avatar"><img src="{{comment.comment_photo.url}}" alt=""></div>
+              {% else %}
+              <div class="comment-avatar"><img src="https://i.pravatar.cc/75" alt=""></div>
+              {% endif %}
+              <!-- Contenedor del Comentario -->
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name"><a href="">{{comment.comment_author}}</a></h6>
+                  <span>{{comment.comment_date|timesince}}</span>
+                  <i class="fa fa-reply"></i>
+                  <i class="fa fa-heart"></i>
+                </div>
+                <div class="comment-content">
+                  {{comment.comment_content}}
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          {% else %}
+          <div class="commentsPart">
+            <div class="commentsPartright">
+              <div style="margin-top: 3%">
+                Bu röportaja yorum yapılmamıştır.İlk yorumu yapan siz olun!
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <div class="grid2">
+
+    <h2>Öne Çıkanlar</h2>
+    <hr>
+    <br>
+
+
+    <figure class="snip1529">
+      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample13.jpg" alt="pr-sample13" />
+      <div class="date"><span class="day">28</span><span class="month">Apr</span></div>
+      <figcaption>
+        <h3>An Abstract Post Heading</h3>
+        <p>Which is worse, that everyone has his price, or that the price is always so low.</p>
+      </figcaption>
+      <div class="hover">
+        <h4 style="text-align: center; font-size: medium;">devamını gör</h4>
+      </div>
+      <a href="#"></a>
+    </figure>
+    <figure class="snip1529 hover"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample21.jpg"
+        alt="pr-sample21" />
+      <div class="date"><span class="day">17</span><span class="month">May</span></div>
+      <div class="date"><span class="day">17</span><span class="month">May</span></div>
+      <figcaption>
+        <h3>Down with this sort of thing</h3>
+        <p>I'm killing time while I wait for life to shower me with meaning and happiness.</p>
+      </figcaption>
+      <div class="hover">
+        <h4 style="text-align: center; font-size: medium;">devamını gör</h4>
+      </div>
+      <a href="#"></a>
+    </figure>
+    <figure class="snip1529"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample23.jpg"
+        alt="pr-sample23" />
+      <div class="date"><span class="day">08</span><span class="month">June</span></div>
+      <figcaption>
+        <h3>The World Ended Yesterday</h3>
+        <p>The only skills I have the patience to learn are those that have no real application in life. </p>
+      </figcaption>
+      <div class="hover">
+        <h4 style="text-align: center; font-size: medium;">devamını gör</h4></i>
+      </div>
+      <a href="#"></a>
+    </figure>
+
+  </div>
+</div>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
   crossorigin="anonymous"></script>
+
+<script src="{% static 'js/shareModal.js'%}"></script>
+
 
 <script type="text/javascript">
   $(document).on("submit", "#like", function (e) {

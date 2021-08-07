@@ -1,0 +1,61 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="{% url 'index'  %}"> Blog</a>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'about'  %}">Hakkımızda</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'article:articles'  %}">Makaleler</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'article:category_culture'  %}">Kültür</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'article:category_sport'  %}">Spor</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'article:category_science'  %}">Bilim</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'article:category_technology'  %}">Teknoloji</a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'article:category_art'  %}">Sanat</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+            {% if request.user.is_authenticated %}
+            <li class="nav-item active"><a class="nav-link" href="{% url 'article:favourite_list' %}">Favorilerim</a>
+            </li>
+            <li class="nav-item active"><a class="nav-link" href="{% url 'userprofile:userupdate' %}">Bilgilerimi
+                    Güncelle</a>
+            </li>
+            <li class="nav-item active"><a class="nav-link" href="#">Şifremi Değiştir</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{% url 'userprofile:logout' %}">Çıkış</a></li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'userprofile:login' %}">Giriş Yap</a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'userprofile:register' %}">Kayıt Ol</a>
+            </li>
+
+            {% endif %}
+
+
+        </ul>
+    </div>
+
+
+</nav>

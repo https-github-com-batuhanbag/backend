@@ -23,7 +23,7 @@ def registration_view(request):
         return render(request, "register.html")
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-
+        print("code is here 1")
         if form.is_valid():
 
             user = form.save(commit=False)
@@ -32,7 +32,7 @@ def registration_view(request):
             current_site = get_current_site(request)
 
             mail_subject = 'Activate your account.'
-            message = render_to_string('acc_activate.html', {
+            message = render_to_string('registration/user_activate_mail.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.id)).decode(),
@@ -43,6 +43,7 @@ def registration_view(request):
                 mail_subject, message, to=[to_email]
             )
             email.send()
+            print("code is here 2")
             return render(request, "registerINFO.html")
 
         else:
@@ -77,6 +78,7 @@ def login_view(request):
 
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
+
         if form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
@@ -84,7 +86,11 @@ def login_view(request):
 
             if user:
                 login(request, user)
-                return redirect("index")
+
+                return redirect(request.META['HTTP_REFERER'])
+        else:
+            messages.error(request, "Giriş başarısız lütfen tekrar deneyiniz")
+            return redirect(request.META['HTTP_REFERER'])
 
     else:
         form = AccountAuthenticationForm()
