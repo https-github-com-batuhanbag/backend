@@ -2,9 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.db.models import fields
-
-
-from userprofile.models import UserAccount
+from userprofile.models import EditorAccount, UserAccount
 
 
 class RegistrationForm(UserCreationForm):
@@ -33,6 +31,24 @@ class AccountAuthenticationForm(forms.ModelForm):
 
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Giriş Başarısız.")
+
+
+class EditorAuthenticationForm(forms.ModelForm):
+
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = EditorAccount
+        fields = ('email', 'password')
+
+    def clean(self):
+
+        if self.is_valid():
+            email = self.cleaned_data['email']
+            password = self.cleaned_data['password']
+
+            if not authenticate(email=email, password=password):
+                raise forms.ValidationError("Editor Girişi Başarısız")
 
 
 class AccountUptadeForm(forms.ModelForm):

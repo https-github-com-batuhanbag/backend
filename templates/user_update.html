@@ -1,71 +1,149 @@
 {% extends "layout.html" %} {% load static %} {% block body %}
 
-<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+
+<link rel="stylesheet" href="{% static 'css/updateProfile.css' %}">
 
 
-<div class="container">
-    <div class="profilePage">
-        <div class="profileTop">
 
-            {% if request.user.account_avatar %}
-            <img id="ppimage" src="{{request.user.account_avatar.url}}" alt="avatar" style="width: 20%" />
-            {% else %}
-            <img id="ppimage" src="#" alt="avatar" style="width: 20%" />
-            {% endif %}
-            <div>
-                <h3>{{request.user.fullName}}</h3>
+<div class="profileCard">
+    <div class="headerProfile">
+        <div class="imgname">
+            <img src="{{request.user.account_avatar.url}}" alt="profile">
+            <div class="headtitle">
+                <h1>{{request.user.fullName}} </h1>
+                <h3>{{request.user.job}}</h3>
+                <a class="profileA" href="{% url 'password_change' %}">Şifremi Değiştir</a>
 
-
-                <a href="{% url 'password_change' %}">Şifre Değiştir</a>
             </div>
+
+
+
+
         </div>
 
+        <form class="forms">
 
-        <div>
-            <form id="profileUpdate" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="form">
+            <div class="formbody">
+                <h4>İsim</h4>
+                <input value="{{request.user.fullName}}" type="text" name="fullName">
+                <h4>E-mail</h4>
+                <input value="{{request.user.email}}" name="email" style="cursor: not-allowed;" type="email">
+                <h4>Web-Site</h4>
+                <input value="{{request.user.website}}" name="website" type="text">
+                <h4>Ülke</h4>
+                <select name="country" id="City">
+                    <option value="turkey">Türkiye</option>
+                    <option value="other">Diğer</option>
+                </select>
+                <h4>Şehir</h4>
 
-                    <input type="file" accept="image/*" name="account_avatar" id="imgInput" />
-                    <p>isim</p>
-                    <input id="fullName" type="text" value="{{request.user.fullName}}" name="fullName"
-                        placeholder="Ad Soyad" />
-                    <p>email</p>
-                    <input id="email" type="email" readonly value="{{request.user.email}}" name="email"
-                        style="cursor: not-allowed;" />
+                <label for="City"></label><select name="city" id="City">
+                    <option value="0" disabled="" selected="">Şehir Seçin</option>
+                    <option value="Diger">Diğer</option>
+                    <option value="1">Adana</option>
+                    <option value="2">Adıyaman</option>
+                    <option value="3">Afyonkarahisar</option>
+                    <option value="4">Ağrı</option>
+                    <option value="5">Amasya</option>
+                    <option value="6">Ankara</option>
+                    <option value="7">Antalya</option>
+                    <option value="8">Artvin</option>
+                    <option value="9">Aydın</option>
+                    <option value="10">Balıkesir</option>
+                    <option value="11">Bilecik</option>
+                    <option value="12">Bingöl</option>
+                    <option value="13">Bitlis</option>
+                    <option value="14">Bolu</option>
+                    <option value="15">Burdur</option>
+                    <option value="16">Bursa</option>
+                    <option value="17">Çanakkale</option>
+                    <option value="18">Çankırı</option>
+                    <option value="19">Çorum</option>
+                    <option value="20">Denizli</option>
+                    <option value="21">Diyarbakır</option>
+                    <option value="22">Edirne</option>
+                    <option value="23">Elazığ</option>
+                    <option value="24">Erzincan</option>
+                    <option value="25">Erzurum</option>
+                    <option value="26">Eskişehir</option>
+                    <option value="27">Gaziantep</option>
+                    <option value="28">Giresun</option>
+                    <option value="29">Gümüşhane</option>
+                    <option value="30">Hakkâri</option>
+                    <option value="31">Hatay</option>
+                    <option value="32">Isparta</option>
+                    <option value="33">Mersin</option>
+                    <option value="34">İstanbul</option>
+                    <option value="35">İzmir</option>
+                    <option value="36">Kars</option>
+                    <option value="37">Kastamonu</option>
+                    <option value="38">Kayseri</option>
+                    <option value="39">Kırklareli</option>
+                    <option value="40">Kırşehir</option>
+                    <option value="41">Kocaeli</option>
+                    <option value="42">Konya</option>
+                    <option value="43">Kütahya</option>
+                    <option value="44">Malatya</option>
+                    <option value="45">Manisa</option>
+                    <option value="46">Kahramanmaraş</option>
+                    <option value="47">Mardin</option>
+                    <option value="48">Muğla</option>
+                    <option value="49">Muş</option>
+                    <option value="50">Nevşehir</option>
+                    <option value="51">Niğde</option>
+                    <option value="52">Ordu</option>
+                    <option value="53">Rize</option>
+                    <option value="54">Sakarya</option>
+                    <option value="55">Samsun</option>
+                    <option value="56">Siirt</option>
+                    <option value="57">Sinop</option>
+                    <option value="58">Sivas</option>
+                    <option value="59">Tekirdağ</option>
+                    <option value="60">Tokat</option>
+                    <option value="61">Trabzon</option>
+                    <option value="62">Tunceli</option>
+                    <option value="63">Şanlıurfa</option>
+                    <option value="64">Uşak</option>
+                    <option value="65">Van</option>
+                    <option value="66">Yozgat</option>
+                    <option value="67">Zonguldak</option>
+                    <option value="68">Aksaray</option>
+                    <option value="69">Bayburt</option>
+                    <option value="70">Karaman</option>
+                    <option value="71">Kırıkkale</option>
+                    <option value="72">Batman</option>
+                    <option value="73">Şırnak</option>
+                    <option value="74">Bartın</option>
+                    <option value="75">Ardahan</option>
+                    <option value="76">Iğdır</option>
+                    <option value="77">Yalova</option>
+                    <option value="78">Karabük</option>
+                    <option value="79">Kilis</option>
+                    <option value="80">Osmaniye</option>
+                    <option value="81">Düzce</option>
+                </select>
 
-                    <p>website</p>
-                    <input id="website" type="text" value="{{request.user.website}}" name="website" />
-                    <p>ülke</p>
-                    <input id="country" type="text" value="{{request.user.country}}" name="country"
-                        placeholder="Ülke" />
 
-                    <p>city</p>
-                    <input id="city" type="text" value="{{request.user.city}}" name="city" />
+            </div>
+            <div class="formbody2">
+                <h4>Doğum tarihi</h4>
+                <input value="{{request.user.birthdate}}" name="birthdate" type="date">
+                <h4>İş</h4>
+                <input value="{{request.user.job}}" name="job" type="text">
+                <h4>Biyografi</h4>
+                <textarea name="biography" type="bio">{{request.user.biography}}</textarea>
+                <!-- <input style="height: 50%;" value="{{request.user.biography}}" name="biography" type="bio"> -->
+                <br>
+                <button type="submit">Güncelle</button>
 
-                    <p>dogum tarih</p>
-                    <input id="birthdate" type="text" value="{{request.user.birthdate}}" name="birthdate"
-                        placeholder="Dogum Tarihi" />
+            </div>
 
-                    <p>biyografi</p>
-                    <input id="biography" type="text" value="{{request.user.biography}}" name="biography" />
-                    <p>iş</p>
-                    <input id="job" type="text" value="{{request.user.job}}" name="job" />
-                </div>
-                <div class="profileBottom">
-                    <!-- <a href="#">Hesabımı Sil</a> -->
 
-                    <button type="submit" class="btn right">Kaydet</button>
-                </div>
-            </form>
-        </div>
+
+        </form>
+
     </div>
 </div>
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-
-
+<!-- Body -->
 
 {% endblock body %}

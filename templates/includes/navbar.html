@@ -1,5 +1,17 @@
 {% load static %}
 {% load socialaccount %}
+
+<style>
+    button {
+
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-size: 14px;
+        padding: 5px;
+        font-weight: 600;
+    }
+</style>
 <nav class="nav">
     <div class="nav-menu flex-row">
         <div class="nav-brand">
@@ -42,17 +54,24 @@
                 <ul>
                     {% if request.user.is_authenticated %}
                     <li class="nav-link">
-                        <a href="{% url 'userprofile:logout'  %}">Çıkış Yap</a>
+                        <a href="{% url 'userprofile:logout'  %}"><i class="fas fa-sign-out-alt"></i></a>
                     </li>
                     {% else %}
                     <li class="green">
                         <a class="fa fa-user"></a>
                         <ul>
+                            <li>
+                                <button class="btnModal"
+                                    onclick="document.getElementById('myModal').style.display='block'">Giriş
+                                    Yap</button>
+                            </li>
+                            <li>
 
-                            <button class="btnModal"
-                                onclick="document.getElementById('myModal').style.display='block'">Login</button>
-                            <button class="signupBtn"
-                                onclick="document.getElementById('signupMyModal').style.display='block'">Register</button>
+                                <button class="signupBtn"
+                                    onclick="document.getElementById('signupMyModal').style.display='block'">Kayıt
+                                    Ol</button>
+                            </li>
+
                         </ul>
                     </li>
                     {% endif %}
@@ -69,8 +88,9 @@
 <!-- Login Modal -->
 <div class="modal" id="myModal">
     <div class="modalContent">
-        <div class="modalHeader">
-            <a onclick="document.getElementById('myModal').style.display='none'" id="close" class="close">&#9587;</a>
+        <div class="SUHeader">
+            <span onclick="document.getElementById('myModal').style.display='none'" id="closeSignUpModal"
+                class="closeSignUpModal">&#9587;</span>
         </div>
         <div class="modalBody">
             <div class="loginBox">
@@ -82,9 +102,9 @@
                     <input type="text" name="email" placeholder="Email Adresiniz">
                     <p>Şifre</p>
                     <input type="password" name="password" placeholder="Şifre">
-                    <a href="#" onclick="document.getElementById('forgerPass').style.display='block'"
+                    <a onclick="document.getElementById('forgotpasswordmodal').style.display='block'"
                         class="loginboxa">Şifremi unuttum</a> <br> <br> <a
-                        style="color:black; text-decoration:none; ">Hesabın yok mu? <a href="#" style="color: red;"
+                        style="color:black; text-decoration:none; ">Hesabın yok mu? <a style="color: red;"
                             onclick="document.getElementById('signupMyModal').style.display='block'"
                             class="modalSignupBtn">Kaydol</a> </a> <br>
 
@@ -130,16 +150,20 @@
                     <p>Şifre tekrar</p>
                     <input type="password" name="password2" placeholder="Şifre tekrar">
 
-                    <label class="check">
-                        <p> Erkek</p>
-                        <input name="gender" value="m" type="radio" />
-                        <span class="checkbox"></span>
-                    </label>
-                    <label class="check">
-                        <p> Kadın</p>
-                        <input name="gender" value="f" type="radio" />
-                        <span class="checkbox"></span>
-                    </label>
+                    <div class="checkBox">
+                        <p style="margin-top: 7%;">Cinsiyet</p>
+                        <label class="check">
+                            <p> Erkek</p>
+                            <input name="gender" value="m" type="radio" />
+                            <span class="checkbox"></span>
+                        </label>
+                        <label class="check">
+                            <p> Kadın</p>
+                            <input name="gender" value="f" type="radio" />
+                            <span class="checkbox"></span>
+                        </label>
+                    </div>
+
 
                     <input type="submit" name="submit" value="Kayıt">
 
@@ -157,34 +181,36 @@
 
 <!-- SignUp Modal -->
 
-
-<!-- Forget Password Modal -->
-<!-- 
-<div class="forgetPass" id="forgetPass">
-    <div class="SignupModalContent">
-        <div class="SUHeader">
-            <span onclick="document.getElementById('forgetPass').style.display='none'" id="closeSignUpModal"
+<!-- forgot password -->
+<div class="forgotpasswordmodal" id="forgotpasswordmodal">
+    <div class="forgotpasswordContent">
+        <div class="FPheader">
+            <span onclick="document.getElementById('forgotpasswordmodal').style.display='none'" id="closeSignUpModal"
                 class="closeSignUpModal">&#9587;</span>
         </div>
-        <div class="SUmodalBody">
-            <div class="SUloginBox">
+        <div class="FPmodalBody">
+            <div class="FPmodalBox">
                 <h1>Şifremi Unuttum</h1>
-                <form method="POST" action="#">
-                    {% csrf_token %}
+                <span class="sasP">
+                    <p>Yeni şifre belirlemek için kayıtlı e-posta adresinizi yazınız.
+                        Şifre değiştirme linkini e-posta adresinize göndereceğiz.</p>
+                </span>
 
-
-                    <p>E-mail</p>
-                    <input type="mail" name="email" placeholder="E-mail">
-
-                    <input type="submit" name="submit" value="Kayıt">
-
-
-                    <a href="{% provider_login_url 'google' %}" class="fa fa-google-plus">Google ile
-                        kayıt</a>
+                <form>
+                    <p>E-posta</p>
+                    <input type="mail" name="mail" placeholder="E-mail">
+                    <button type="submit" name="submit">Gönder</button>
                 </form>
             </div>
         </div>
-
     </div>
 
-</div> -->
+
+
+</div>
+
+
+
+
+
+<!-- forgot password -->

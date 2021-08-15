@@ -1,0 +1,141 @@
+body {
+  background-image: url("Desktop\ -\ 1.png");
+
+  background-repeat: no-repeat;
+}
+.profileCard {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 800px;
+  height: 680px;
+  margin-bottom: 5%;
+  margin-top: 1%;
+}
+.headerProfile {
+  padding: 2em;
+}
+.headerProfile img {
+  border-radius: 50%;
+  width: 12%;
+}
+.imgname {
+  display: flex;
+}
+.headtitle {
+  margin-left: 3%;
+}
+.profileCard h4 {
+  color: cadetblue;
+  opacity: 80%;
+  margin-left: 4%;
+  cursor: pointer;
+}
+.profileCard h3 {
+  opacity: 60%;
+}
+.headtitle h1 {
+  font-size: 1.5em;
+}
+.forms {
+  padding: 0.5em;
+  margin-left: 10%;
+}
+.formbody {
+}
+.formbody2 {
+  margin-left: 5%;
+}
+.formbody input {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 2em;
+  width: 20em;
+  height: 2.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 20px;
+  outline: none;
+}
+.formbody #City {
+  border: 0px;
+  outline: 0px;
+  font-size: 18px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 2em;
+  width: 15em;
+  height: 2.5em;
+  padding: 5px;
+  margin-top: 0.5em;
+}
+.forms {
+  display: flex;
+}
+.formbody2 input {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 2em;
+  width: 20em;
+  height: 2.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 20px;
+
+  outline: none;
+}
+.formbody2 textarea {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 2em;
+  width: 20em;
+  height: 10em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 20px;
+  resize: none;
+  outline: none;
+}
+.formbody2 button[type="submit"] {
+  border-radius: 2em;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top: 0.5em;
+  transition: all 0.25s ease-in;
+  transform: translateX(0);
+}
+.formbody2 button[type="submit"]:hover {
+  background-color: white;
+  color: black;
+  top: -10%;
+}
+@media only screen and (max-width: 700px) {
+  .profileCard {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: 800px;
+    height: 1200px;
+    margin-bottom: 5%;
+    margin-top: 1%;
+  }
+  .forms {
+    display: block;
+    margin-left: -0.1%;
+  }
+  .formbody2 {
+    margin-top: 1em;
+    margin-left: 0em;
+  }
+  .formbody2 button[type="submit"] {
+    border-radius: 2em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 2%;
+
+    transition: all 0.25s ease-in;
+    transform: translateX(0);
+    width: 40%;
+  }
+}

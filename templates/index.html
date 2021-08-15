@@ -24,7 +24,8 @@
                                                 <p>
 
                                                 </p>
-                                                <button>Şimdi Oku</button>
+                                                <form action=""></form>
+                                                <button onclick="">Şimdi Oku</button>
                                         </div>
 
                                         <div class="illustration"></div>
@@ -76,15 +77,21 @@
                                         {% for article in articles %}
                                         <div class="post-image">
                                                 <div>
-                                                        <img src="{{article.article_image.url}}" class="img"
-                                                                alt="blog1">
+                                                        <a href="{% url 'article:detail' article.id %}"><img
+                                                                        src="{{article.article_image.url}}" class="img"
+                                                                        alt="blog1"></a>
                                                 </div>
                                                 <div class="post-info flex-row">
                                                         <span><i
                                                                         class="fas fa-user text-gray"></i>&nbsp;&nbsp;{{article.author.fullName}}</span>
                                                         <span><i
                                                                         class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{article.created_date|timesince}}</span>
-                                                        <span>2 Yorum</span>
+                                                        <span><i class="far fa-thumbs-up"></i>
+                                                                {{ article.total_likes }}</span>
+                                                        <span>
+                                                                <i class="far fa-eye"></i>
+                                                                {{ article.read }}
+                                                        </span>
                                                 </div>
                                         </div>
                                         <div class="post-title">
@@ -92,8 +99,8 @@
                                                         href="{% url 'article:detail' article.id %}">{{article.title|safe|truncatewords:20}}</a>
                                                 <p>{{article.content|safe|truncatewords:35}}
                                                 </p>
-                                                <button class="btn post-btn">Devamını gör&nbsp; <i
-                                                                class="fas fa-arrow-right"></i></button>
+                                                <!-- <button class="btn post-btn">Devamını gör&nbsp; <i
+                                                                class="fas fa-arrow-right"></i></button> -->
 
                                         </div>
                                         <hr>
@@ -103,7 +110,9 @@
 
 
                         </div>
+
                         <aside class="sidebar">
+                                {% for trend in trends %}
 
                                 <div class="popular-post">
 
@@ -111,100 +120,27 @@
 
                                                 <div class="post-image">
                                                         <div>
-                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
+                                                                <img src="{{trend.article_image.url}}" class="img"
                                                                         alt="blog1">
                                                         </div>
                                                         <div class="post-info flex-row">
                                                                 <span style="color:black;"><i
-                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
-                                                                        14,
-                                                                        2019</span>
-                                                                <span style="color:black;">2 yorum</span>
-                                                        </div>
-                                                </div>
-                                                <div class="post-title">
-                                                        <a href="#">New data recording system to better analyse road
-                                                                accidents</a>
-                                                </div>
-                                        </div>
-                                        <div class="post-content" data-aos="flip-up" data-aos-delay="300">
-                                                <div class="post-image">
-                                                        <div>
-                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
-                                                                        alt="blog1">
-                                                        </div>
-                                                        <div class="post-info flex-row">
+                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{trend.created_date}}</span>
                                                                 <span style="color:black;"><i
-                                                                                class="fas fa-calendar-alt text-gray"
-                                                                                style="color:black;"></i>&nbsp;&nbsp;January
-                                                                        14,
-                                                                        2019</span>
-                                                                <span style="color:black;">2 Commets</span>
+                                                                                class="far fa-thumbs-up"></i>
+                                                                        {{ trend.total_likes }}</span>
+                                                                <span style="color:black;"><i class="far fa-eye"></i>
+                                                                        {{ trend.read }}</span>
                                                         </div>
                                                 </div>
                                                 <div class="post-title">
-                                                        <a href="#">New data recording system to better analyse road
-                                                                accidents</a>
+                                                        <a
+                                                                href="{% url 'article:detail' trend.id %}">{{trend.title}}</a>
                                                 </div>
                                         </div>
-                                        <div class="post-content" data-aos="flip-up" data-aos-delay="400">
-                                                <div class="post-image">
-                                                        <div>
-                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
-                                                                        alt="blog1">
-                                                        </div>
-                                                        <div class="post-info flex-row">
-                                                                <span style="color:black;"><i
-                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
-                                                                        14,
-                                                                        2019</span>
-                                                                <span style="color:black;">2 Commets</span>
-                                                        </div>
-                                                </div>
-                                                <div class="post-title">
-                                                        <a href="#">New data recording system to better analyse road
-                                                                accidents</a>
-                                                </div>
-                                        </div>
-                                        <div class="post-content" data-aos="flip-up" data-aos-delay="500">
-                                                <div class="post-image">
-                                                        <div>
-                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
-                                                                        alt="blog1">
-                                                        </div>
-                                                        <div class="post-info flex-row">
-                                                                <span style="color:black;"><i
-                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
-                                                                        14,
-                                                                        2019</span>
-                                                                <span style="color:black;">2 Commets</span>
-                                                        </div>
-                                                </div>
-                                                <div class="post-title">
-                                                        <a href="#">New data recording system to better analyse road
-                                                                accidents</a>
-                                                </div>
-                                        </div>
-                                        <div class="post-content" data-aos="flip-up" data-aos-delay="600">
-                                                <div class="post-image">
-                                                        <div>
-                                                                <img src="{% static 'assets/crypto.jpg' %}" class="img"
-                                                                        alt="blog1">
-                                                        </div>
-                                                        <div class="post-info flex-row">
-                                                                <span style="color:black;"><i
-                                                                                class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January
-                                                                        14,
-                                                                        2019</span>
-                                                                <span style="color:black;">2 Commets</span>
-                                                        </div>
-                                                </div>
-                                                <div class="post-title">
-                                                        <a href="#">New data recording system to better analyse road
-                                                                accidents</a>
-                                                </div>
-                                        </div>
+
                                 </div>
+                                {% endfor %}
                                 <div class="category">
                                         <h2>Kategori</h2>
                                         <ul class="category-list">

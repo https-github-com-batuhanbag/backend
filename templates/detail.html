@@ -3,7 +3,31 @@
 {% load static %}
 {% block body %}
 
-<link rel="stylesheet" href="{% static 'css/shareModal.scss' %}">
+
+
+<style>
+  .btnModal {
+    border: 0;
+    background-color: transparent;
+    color: #115055;
+    font-weight: 700;
+  }
+
+  .detailsimg {
+    height: 500px;
+    width: 100%;
+
+    filter: brightness(40%) blur(3px);
+  }
+
+  .imgHeaderText {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    color: white;
+    font-size: 100px;
+  }
+</style>
 
 
 
@@ -20,7 +44,7 @@
 <!-- ------------x---------------  Text Detail --------------------------x------------------- -->
 
 <div class="detailText">
-  <p>{{article.created_date|timesince}}</p>
+  <p>{{article.created_date|timesince}} önce yayınlandı.</p>
   <div class="likeComment">
     <i class="fas fa-heart">{{total_likes}}</i>
     <i class="fas fa-eye">{{article.read}}</i>
@@ -35,29 +59,29 @@
     <p>{{article.content|safe}}</p>
 
 
-    <!-- <div class="textFoto">
+    <div class="textFoto">
       <img src="" alt="">
-    </div> -->
+    </div>
     <div class="shareBar">
-      <!-- <form method="POST" id="like">
-        
+      <form method="POST" id="like">
+
         {% csrf_token %}
         <button style="cursor: pointer" id="likeButton" type="submit" name="post_id" value="{{article.id}}">
           <i id="icon" class="far fa-thumbs-up fa-lg"></i>
           Gönderiyi Beğen
-      </button>
-      </form> -->
-      <!-- <form method="POST" id="favourite">
-        
-        <button type="submit">
-            <i class="far fa-bookmark fa-lg" id="favourite_icon"></i>
         </button>
-    </form> -->
+      </form>
+      <form method="POST" id="favourite">
+
+        <button type="submit">
+          <i class="far fa-bookmark fa-lg" id="favourite_icon"></i>
+        </button>
+      </form>
 
       <i class="fas fa-bookmark"> Gönderiyi Kaydet</i>
       <i class="fas fa-share-alt"> Gönderiyi Beğen</i>
 
-      <i class="fas fa-share-alt"> Gönderiyi Beğen</i>
+      <i class="fas fa-share-alt"> Gönderiyi Paylaş</i>
 
 
 
@@ -85,9 +109,24 @@
       {% else %}
       <p>
         yorum yapmak için
-        <button class="btnModal" onclick="document.getElementById('myModal').style.display='block'">giriş </button>
+        <button class="btnModal" onclick=modalOpen>giriş </button>
         yapmalısınız
       </p>
+      <script>
+        var myModal = document.getElementById('myModal')
+        var img = document.getElementsByClassName('comment-avatar')
+        var btnModal = document.getElementsByClassName('btnModal')
+
+        function modalOpen() {
+
+          btnModal.onclick = function () {
+            myModal.style.display = "block"
+            img.style.display = "none"
+          }
+        }
+
+
+      </script>
       {% endif %}
       {% if request.user.is_authenticated %}
       <form action=" {% url 'article:comment' article.id %}" method="post">
@@ -122,14 +161,61 @@
                 <div class="comment-head">
                   <h6 class="comment-name"><a href="">{{comment.comment_author}}</a></h6>
                   <span>{{comment.comment_date|timesince}}</span>
-                  <i class="fa fa-reply"></i>
-                  <i class="fa fa-heart"></i>
+                  {% if request.user.is_authenticated %}
+                  <a class="accordion"><i class="fa fa-reply"></i></a>
+                  <div class="panel" style="display: none;">
+                    <form action=" {% url 'article:reply' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                      <textarea name="comment_reply" style="color: black;" class="feedback-input"
+                        placeholder="Yanıtınız"></textarea>
+                      <input type="submit" value="Gönder" />
+                    </form>
+
+                  </div>
+                  {% else %}
+
+                  <button class="btnModal" onclick="document.getElementById('myModal').style.display='block'"><i
+                      class="fa fa-reply"></i></button>
+
+                  {% endif %}
+                  <!-- comment-like -->
+                  <!-- <form method="POST" id="comment_like">
+                    {% csrf_token %}
+
+                    <button id="comment_like_button" type="submit" name="comment_id">
+                      <i class="fa fa-heart" id="icon"></i>
+                    </button>
+
+                  </form> -->
+                  <!-- comment-like end-->
                 </div>
                 <div class="comment-content">
                   {{comment.comment_content}}
                 </div>
               </div>
             </div>
+            <ul class="comments-list reply-list">
+
+
+              <li>
+                <!-- Avatar -->
+                <div class="comment-avatar"><img src="./assets/parpara-palvin.jpg" alt=""></div>
+                <!-- Contenedor del Comentario -->
+                <div class="comment-box">
+                  <div class="comment-head">
+                    <h6 class="comment-name"><a href="">Murat Köksalan</a></h6>
+                    <span>10 dakika önce</span>
+                    <i class="fa fa-reply"></i>
+                    <i class="fa fa-heart"></i>
+                  </div>
+                  <div class="comment-content">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium
+                    vitae, praesentium optio, sapiente distinctio illo?
+                  </div>
+                </div>
+              </li>
+            </ul>
           </li>
           {% endfor %}
           {% else %}
@@ -202,6 +288,31 @@
 <script src="{% static 'js/shareModal.js'%}"></script>
 
 
+
+
+
+<script>
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      /* Toggle between adding and removing the "active" class,
+      to highlight the button that controls the panel */
+      this.classList.toggle("active");
+
+      /* Toggle between hiding and showing the active panel */
+      var panel = this.nextElementSibling;
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
+  }
+</script>
+
+<!-- post-like-script -->
 <script type="text/javascript">
   $(document).on("submit", "#like", function (e) {
     console.log($("input[name=csrfmiddlewaretoken]").val());
@@ -232,6 +343,8 @@
   });
 </script>
 
+
+<!-- Post-favourite-script -->
 <script type="text/javascript">
   $(document).on("submit", "#favourite", function (e) {
     e.preventDefault();

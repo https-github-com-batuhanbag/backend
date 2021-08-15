@@ -596,13 +596,7 @@ footer.footer .move-up span:hover {
 
   filter: brightness(40%) blur(3px);
 }
-.imgHeaderText {
-  position: absolute;
-  top: 60%;
-  left: 3%;
-  color: white;
-  font-size: 50px;
-}
+
 .detailText {
   display: flex;
   margin: 2%;
@@ -1085,9 +1079,10 @@ textarea {
   justify-content: center;
   color: white;
   flex-wrap: wrap;
+  height: auto;
+  align-items: center;
   margin-left: 10%;
   max-width: 80%;
-  height: auto;
 }
 @media only screen and (max-width: 780px) {
   .cardDiv {
@@ -1099,7 +1094,7 @@ textarea {
     display: block;
     align-items: center;
     justify-content: center;
-    margin-left: 5%;
+    margin-left: 10%;
   }
 }
 
@@ -1123,7 +1118,7 @@ textarea {
 }
 .modalContent {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
@@ -1159,17 +1154,17 @@ textarea {
   background-color: red;
   border-radius: 2em;
 
-  color: black;
+  color: white;
   position: relative;
   top: 1em;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
 }
 .loginBox button:hover {
-  background-color: black;
+  background-color: rgb(250, 102, 102);
   border-radius: 2em;
 
-  color: red;
+  color: white;
   position: relative;
   top: 1em;
   overflow: hidden;
@@ -1192,23 +1187,19 @@ textarea {
   border-bottom: 1px solid #007c8e;
 }
 .loginBox input[type="submit"] {
+  background-color: #104f55;
   border-radius: 2em;
-  background-color: transparent;
-  color: black;
+
+  color: white;
   position: relative;
-  border: 2px solid black;
-  z-index: 3;
-  width: 50%;
+  top: 1em;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
-  top: 1em;
-  margin-left: 25%;
-  font-size: 18px;
 }
 
 .loginBox input[type="submit"]:hover {
   cursor: pointer;
-  background: #204345;
+  background: #338185;
 }
 .loginboxa {
   text-decoration: none;
@@ -1233,26 +1224,37 @@ textarea {
     opacity: 0;
   }
   to {
-    top: calc(50%);
+    top: calc(40%);
     opacity: 1;
   }
 }
 
-@media (min-width: 768px) and(max-width:991px) {
+@media (max-width: 991px) {
   .modalContent {
-    width: 100%;
+    width: 120%;
+  }
+  .modalContent span {
+    margin-right: 25%;
+    color: black;
   }
 }
-@media (min-width: 576px) and(max-width:767px) {
+@media (max-width: 767px) {
   .modalContent {
-    width: 100%;
+    width: 120%;
+  }
+  .modalContent span {
+    margin-right: 25%;
+    color: black;
   }
 }
 @media (max-width: 576px) {
   .modalContent {
-    width: 100%;
-    top: 30%;
-    left: 40%;
+    width: 140%;
+    top: 50%;
+  }
+  .modalContent span {
+    margin-right: 25%;
+    color: black;
   }
 }
 
@@ -1282,8 +1284,8 @@ textarea {
   z-index: 2;
 }
 .SUloginBox {
-  width: 60%;
-  height: 640px;
+  width: 70%;
+  height: 680px;
   background: rgb(255, 255, 255);
   color: black;
   box-sizing: border-box;
@@ -1307,18 +1309,19 @@ textarea {
 .SUloginBox button {
   background-color: red;
   border-radius: 2em;
+  font-size: 16px;
 
-  color: black;
+  color: white;
   position: relative;
   top: 1em;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
 }
 .SUloginBox button:hover {
-  background-color: black;
+  background-color: rgb(243, 139, 139);
   border-radius: 2em;
 
-  color: red;
+  color: white;
   position: relative;
   top: 1em;
   overflow: hidden;
@@ -1335,21 +1338,18 @@ textarea {
   font-size: 16px;
 }
 .SUloginBox input[type="submit"] {
+  background-color: #104f55;
   border-radius: 2em;
-  background-color: transparent;
-  color: black;
+
+  color: white;
   position: relative;
-  border: 2px solid black;
-  z-index: 3;
-  width: 50%;
+  top: 1em;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
-  top: 1em;
-  margin-left: 25%;
 }
 .SUloginBox input[type="submit"]:hover {
   cursor: pointer;
-  background: #204345;
+  background: #386f72;
 }
 .SUloginBox a {
   justify-content: left;
@@ -1376,4 +1376,193 @@ textarea {
     color: #104f55;
     display: block;
   }
+}
+@media (max-width: 991px) {
+  .SignupModalContent {
+    width: 120%;
+  }
+  .SignupModalContent span {
+    margin-right: 25%;
+    color: black;
+  }
+}
+@media (max-width: 767px) {
+  .SignupModalContent {
+    width: 120%;
+  }
+  .SignupModalContent span {
+    margin-right: 25%;
+    color: black;
+  }
+}
+@media (max-width: 576px) {
+  .SignupModalContent {
+    width: 140%;
+    top: 50%;
+  }
+  .SignupModalContent span {
+    margin-right: 25%;
+    color: black;
+  }
+}
+
+/*  forgot password Modal */
+.forgotpasswordmodal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.926);
+  overflow: auto;
+  padding: 50px 0;
+  box-sizing: border-box;
+  z-index: 2;
+}
+.forgotpasswordContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  padding: 20px;
+  width: 50%;
+  animation: formDown 0.5s;
+  z-index: 2;
+}
+.FPmodalBox {
+  width: 60%;
+  height: 320px;
+  background: rgb(255, 255, 255);
+  color: black;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+.FPmodalBox h1 {
+  margin-top: 3%;
+  margin-left: 4%;
+  margin-bottom: 4%;
+}
+.FPmodalBox p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  color: black;
+}
+.sasP {
+  padding: 0 0 40px;
+}
+.sasP p {
+  opacity: 30%;
+  margin-left: 5%;
+  font-size: 12px;
+}
+.FPmodalBox input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.FPmodalBox button {
+  background-color: #104f55;
+  border-radius: 2em;
+
+  color: white;
+  position: relative;
+  top: 1em;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+}
+.FPmodalBox button:hover {
+  background-color: #248c96;
+  border-radius: 2em;
+
+  color: white;
+  position: relative;
+  top: 1em;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+}
+.FPmodalBox input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+
+  background: transparent;
+  height: 40px;
+  color: black;
+  font-size: 16px;
+}
+.FPmodalBox input[type="submit"] {
+  border-radius: 2em;
+  background-color: transparent;
+  color: black;
+  position: relative;
+  border: 2px solid black;
+  z-index: 3;
+  width: 50%;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  top: 1em;
+  margin-left: 25%;
+}
+.FPmodalBox input[type="submit"]:hover {
+  cursor: pointer;
+  background: #204345;
+}
+.FPmodalBox a {
+  justify-content: left;
+  padding: 1%;
+}
+.closeFP {
+  float: right;
+  font-size: 36px;
+  cursor: pointer;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .nav #userIcon {
+    text-decoration: none;
+    margin-left: 1em;
+    font-size: 18px;
+    color: #104f55;
+    display: block;
+  }
+}
+@media (max-width: 991px) {
+  .forgotpasswordContent {
+    width: 120%;
+  }
+  .forgotpasswordContent span {
+    margin-right: 25%;
+    color: black;
+  }
+}
+@media (max-width: 767px) {
+  .forgotpasswordContent {
+    width: 120%;
+  }
+  .forgotpasswordContent span {
+    margin-right: 25%;
+    color: black;
+  }
+}
+@media (max-width: 576px) {
+  .forgotpasswordContent {
+    width: 140%;
+    top: 50%;
+  }
+  .forgotpasswordContent span {
+    margin-right: 25%;
+    color: black;
+  }
+}
+.checkBox {
+  margin-top: -2%;
+  display: flex;
+}
+.checkBox .check {
+  margin-left: 5%;
+  transform: scale(0.7);
 }

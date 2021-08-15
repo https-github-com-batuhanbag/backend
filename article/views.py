@@ -41,6 +41,10 @@ def index(request):
     technology_count = Article.objects.filter(
         article_category__contains="Teknoloji").count()
 
+    week_ago = datetime.date.today() - datetime.timedelta(days=30)
+    trends = Article.objects.filter(
+        created_date__gte=week_ago).order_by('-read')
+
     context = {
         "articles": articles,
         "slider_item": slider_item,
@@ -48,7 +52,9 @@ def index(request):
         "art_count": art_count,
         "culture_count": culture_count,
         "sport_count": sport_count,
+
         "technology_count": technology_count,
+        "trends": trends[:5],
     }
 
     return render(request, "index.html", context)
@@ -119,6 +125,26 @@ def addComment(request, id):
     return redirect(reverse("article:detail", kwargs={"id": id}))
 
 
+# def addReply(request, id):
+
+#     article = get_object_or_404(Article, id=id)
+
+#     if request.method == "POST":
+#         comment_id = request.POST.get("comment_id")
+#         reply_author = request.user.fullName
+#         reply_content = request.POST.get("comment_reply")
+#         reply_photo = request.user.account_avatar
+
+#         print(reply_author, reply_content, reply_photo, comment_id)
+
+#         newReply = Reply(reply_author=reply_author,
+#                          reply_content=reply_content, reply_photo=reply_photo, comment_id=comment_id)
+
+#         newReply.save()
+
+#     return redirect(reverse("article:detail", kwargs={"id": id}))
+
+
 @login_required(login_url="userprofile:login")
 def like_post_article(request, id):
 
@@ -135,6 +161,25 @@ def like_post_article(request, id):
         is_liked = True
 
     return HttpResponseRedirect(post.get_absolute_url())
+
+
+# TO-DO
+
+# def like_comment(request, id):
+
+#     comment = get_object_or_404(Comment, id=id)
+
+#     is_liked = False
+
+#     if comment.comment_likes.filter(id=request.user.id):
+#         comment.comment_likes.remove(request.user)
+#         is_liked = False
+
+#     else:
+#         comment.comment_likes.add(request.user)
+#         is_liked = True
+
+#     return HttpResponseRedirect(comment.get_absolute_url())
 
 
 @login_required(login_url="userprofile:login")

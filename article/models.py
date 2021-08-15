@@ -81,5 +81,23 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_content
 
+    def get_absolute_url(self):
+        return reverse("article:detail", args=[self.id])
+
+    def total_likes(self):
+        return self.comment_likes.count()
+
     class Meta:
         ordering = ['-comment_date']
+
+
+# class Reply(models.Model):
+
+#     comment = models.ForeignKey(
+#         Comment, on_delete=models.CASCADE, verbose_name="Yorum", related_name="comments")
+#     reply_content = RichTextField("Yanıt")
+#     reply_author = models.CharField(max_length=50, verbose_name="İsim")
+#     reply_date = models.DateTimeField(auto_now_add=True)
+#     reply_photo = models.FileField(
+#         blank=True, null=True, verbose_name="Yanıta Fotograf Ekleyin"
+#     )
