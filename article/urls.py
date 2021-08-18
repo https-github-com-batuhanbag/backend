@@ -17,5 +17,7 @@ urlpatterns = [
     path('technology/', views.category_technology, name="category_technology"),
     path('art/', views.category_art, name="category_art"),
     path('sport/', views.category_sport, name="category_sport"),
+    path('editordashboard/', views.dashboard, name="dashboard"),
+    path('addarticle/', views.addArticle, name="addArticle"),
 
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import EditorAccount, UserAccount
-from userprofile.forms import EditorAuthenticationForm, RegistrationForm, AccountAuthenticationForm, AccountUptadeForm
+from .models import UserAccount
+from userprofile.forms import RegistrationForm, AccountAuthenticationForm, AccountUptadeForm
 from django.contrib.auth import login, authenticate, logout
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
@@ -20,7 +20,7 @@ from django.contrib.auth.hashers import make_password
 
 def registration_view(request):
     if request.method == 'GET':
-        return render(request, "register.html")
+        return render(request, "index.html")
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         print("code is here 1")
@@ -67,37 +67,6 @@ def activate(request, uidb64, token):
         return render(request, "registerOK.html")
     else:
         return render(request, "registerFAIL.html")
-
-
-def editor_login_view(request):
-
-    context = {}
-
-    if request.POST:
-
-        form = EditorAuthenticationForm(request.POST)
-
-        if form.is_valid():
-
-            email = request.POST['email']
-            password = request.POST['password']
-            editor = authenticate(email=email, password=password)
-
-            if editor:
-                login(request, editor)
-
-                return redirect("editorPage")
-
-        else:
-            messages.error(request, "Giriş Başarısız")
-            return redirect(request.META['HTTP_REFERER'])
-
-    else:
-        form = EditorAuthenticationForm()
-
-    context['login_form'] = form
-
-    return render(request, "editorLogin.html", context)
 
 
 def login_view(request):

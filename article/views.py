@@ -1,5 +1,6 @@
 from urllib.parse import quote_plus
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse, HttpResponseRedirect
+from article.forms import ArticleForm
 from .models import Article, Comment
 import datetime
 from django.contrib import messages
@@ -196,6 +197,7 @@ def favourite_post(request, id):
 
 
 def favourite_list(request):
+
     keyword = request.GET.get("keyword")
 
     if keyword:
@@ -203,11 +205,17 @@ def favourite_list(request):
         return render(request, "articles.html", {"articles": articles})
     user = request.user
 
-    favourite_posts = user.favourite.all()
+    if user.is_authenticated:
+        user = request.user
 
-    context = {
-        'favourite_posts': favourite_posts
-    }
+        favourite_posts = user.favourite.all()
+
+        context = {
+            'favourite_posts': favourite_posts
+        }
+    else:
+        messages.error(request, "Lütfen giriş yapıp tekrar deneyiniz.")
+        return redirect("index")
 
     return render(request, "favourites.html", context)
 
@@ -230,3 +238,36 @@ def category_art(request):
 
 def category_culture(request):
     return render(request, "categories/culture.html")
+
+
+def dashboard(request):
+
+    user = request.user
+
+    if user.is_authenticated and request.user.account_type == "accType2":
+        articles = Article.objects.filter(author=request.user)
+        context = {
+            "articles": articles
+        }
+
+        return render(request, "editorPage.html", context)
+
+    else:
+        messages.error(
+            request, "Bu sayfaya girmeye yetkiniz yeterli değildir, iyi okumalar dileriz.")
+        return redirect("index")
+
+
+def addArticle(request):
+
+    form = ArticleForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        article = form.save(commit=False)
+        article.author = request.user
+        article.save()
+
+        messages.success(request, "Makale başarıyla oluşturuldu")
+        return redirect("article:dashboard")
+
+    return render(request, "addarticle.html", {"form": form})
