@@ -164,7 +164,7 @@
                   {% if request.user.is_authenticated %}
                   <a class="accordion"><i class="fa fa-reply"></i></a>
                   <div class="panel" style="display: none;">
-                    <form action=" {% url 'article:reply' %}" method="post">
+                    <form action="#" method="post">
                       {% csrf_token %}
                       <input type="hidden" name="comment_id" value="{{ comment.id }}">
                       <textarea name="comment_reply" style="color: black;" class="feedback-input"

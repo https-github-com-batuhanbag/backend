@@ -1,3 +1,4 @@
+{% load static %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,57 +7,105 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <title>Document</title>
 </head>
 
+<style>
+    .card-body {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+    }
+
+    #navbar {
+        justify-content: space-between;
+    }
+
+    .title {
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+</style>
+
 <body>
 
+    <div class="container" style="padding-top: 3%;">
+        <div class="row">
+            <img src="{% static 'assets/penguildLogo.png' %}" alt="">
+            <h3 style="margin-left:1%; margin-top:1%;"> Kontrol Paneli</h3>
+        </div>
 
-    <h3>Kontrol Paneli</h3>
-    <hr>
-    <p>
-        Hoşgeldiniz, <small>{{request.user.fullName}}</small>
-    </p>
-    <hr>
-    <a class="btn btn-danger" href="{% url 'article:addArticle' %}">Makale Ekle </a>
-    <hr>
-    {% if articles %}
-    <table class="table">
-        <thead>
-            <tr>
+        <hr>
+        <p>
+        <div class="row" id="navbar">
+            <div>Hoşgeldiniz, <small>{{request.user.fullName}}</small></div>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">HTML</a></li>
+                    <li><a href="#">CSS</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                </ul>
+            </div>
+        </div>
 
-                <th scope="col">id</th>
-                <th scope="col">Başlık</th>
-                <th scope="col">Yazar</th>
-                <th scope="col">Tarih</th>
-                <th scope="col">Güncelle</th>
-                <th scope="col">Sil</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for article in articles %}
-            <tr>
-                <th scope="row">{{article.id}}</th>
-                <td><a href="{% url 'article:detail' article.id %}">{{article.title}}</a></td>
-                <td>{{article.author.fullName}}</td>
-                <td>{{article.created_date}}</td>
-                <td><a href="#" class="btn btn-danger">Güncelle</a></td>
-                <td><a href="#" class="btn btn-danger">Sil</a> </td>
 
-            </tr>
-            {% endfor %}
+        </p>
+        <hr>
 
-        </tbody>
-    </table>
-    {% else %}
+        <a class="btn btn-success" href="{% url 'article:addArticle' %}">Makale Ekle </a>
+        <hr>
 
-    <div class="alert alert-danger">
-        Henüz bir makaleniz bulunmuyor...
+        <div class="title">
+            <h3>Yazılarım</h3>
+        </div>
+        <!-- Content Row -->
+        {% if articles %}
+        <table class="table">
+            <thead>
+                <tr>
 
+                    <th scope="col">id</th>
+                    <th scope="col">Başlık</th>
+                    <th scope="col">Yazar</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">Tarih</th>
+                    <th scope="col">Güncelle</th>
+                    <th scope="col">Sil</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                <tr>
+                    <th scope="row">{{article.id}}</th>
+                    <td><a href="{% url 'article:detail' article.id %}">{{article.title}}</a></td>
+                    <td>{{article.author.fullName}}</td>
+                    <td>{{article.article_category}}</td>
+                    <td>{{article.created_date}}</td>
+                    <td><a href="{% url 'article:update' article.id %}" class="btn btn-info">Güncelle</a></td>
+                    <td><a href="{% url 'article:delete' article.id %}" class="btn btn-danger">Yazıyı Sil</a> </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        {% else %}
+
+        <div class="alert alert-danger">
+            Henüz bir makaleniz bulunmuyor...
+
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
+
+
 
 
 </body>
+
+<script src="{% static 'js/bootstrap.min.js'%}"></script>
 
 </html>

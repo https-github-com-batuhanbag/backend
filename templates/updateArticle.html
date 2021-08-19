@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yazı Ekle</title>
+    <title>Güncelle</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 
 <style>
-    .addArticle {
+    .updateArticle {
 
         padding: 30px;
     }
@@ -21,26 +21,27 @@
 <body>
 
 
-    <div class="addArticle">
+
+    <div class="updateArticle">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h3>Yazını Oluştur</h3>
+                <h3>Makale Güncelle</h3>
                 <hr>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form.media}}
                     {{form|crispy}}
                     <br>
-                    <button type="submit" class="btn btn-danger">Makale Ekle</button>
+                    <button type="submit" class="btn btn-danger">Makale Güncelle</button>
                 </form>
             </div>
         </div>
-
     </div>
 
 
-</body>
-<script src="{% static 'js/bootstrap.min.js'%}"></script>
 
+</body>
+
+<script src="{% static 'js/bootstrap.min.js'%}"></script>
 
 </html>

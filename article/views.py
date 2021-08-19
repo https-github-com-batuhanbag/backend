@@ -23,6 +23,8 @@ def articles(request):
 
 def index(request):
 
+    print(request.COOKIES)
+
     articles = Article.objects.all()
 
     slider_item = Article.objects.all()[:5]
@@ -126,26 +128,6 @@ def addComment(request, id):
     return redirect(reverse("article:detail", kwargs={"id": id}))
 
 
-# def addReply(request, id):
-
-#     article = get_object_or_404(Article, id=id)
-
-#     if request.method == "POST":
-#         comment_id = request.POST.get("comment_id")
-#         reply_author = request.user.fullName
-#         reply_content = request.POST.get("comment_reply")
-#         reply_photo = request.user.account_avatar
-
-#         print(reply_author, reply_content, reply_photo, comment_id)
-
-#         newReply = Reply(reply_author=reply_author,
-#                          reply_content=reply_content, reply_photo=reply_photo, comment_id=comment_id)
-
-#         newReply.save()
-
-#     return redirect(reverse("article:detail", kwargs={"id": id}))
-
-
 @login_required(login_url="userprofile:login")
 def like_post_article(request, id):
 
@@ -163,6 +145,9 @@ def like_post_article(request, id):
 
     return HttpResponseRedirect(post.get_absolute_url())
 
+
+def cookie(request):
+    pass
 
 # TO-DO
 
@@ -260,14 +245,71 @@ def dashboard(request):
 
 def addArticle(request):
 
-    form = ArticleForm(request.POST or None, request.FILES or None)
+    user = request.user
 
-    if form.is_valid():
-        article = form.save(commit=False)
-        article.author = request.user
-        article.save()
+    if user.is_authenticated and request.user.account_type == "accType2":
 
-        messages.success(request, "Makale başarıyla oluşturuldu")
+        form = ArticleForm(request.POST or None, request.FILES or None)
+
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()
+
+            messages.success(request, "Yazınız Başarıyla Oluşturuldu")
+            return redirect("article:dashboard")
+
+        return render(request, "addarticle.html", {"form": form})
+
+    else:
+
+        messages.error(
+            request, "Bu sayfaya girmeye yetkiniz yeterli değildir, iyi okumalar dileriz.")
+        return redirect("index")
+
+
+def updateArticle(request, id):
+
+    user = request.user
+
+    if user.is_authenticated and request.user.account_type == "accType2":
+
+        article = get_object_or_404(Article, id=id)
+
+        form = ArticleForm(request.POST or None,
+                           request.FILES or None, instance=article)
+
+        if form.is_valid():
+            article = form.save(commit=False)
+
+            article.author = request.user
+
+            article.save()
+
+            messages.success(request, "Yazınız Başarıyla Güncellendi.")
+            return redirect("article:dashboard")
+        return render(request, "updateArticle.html", {"form": form})
+    else:
+        messages.error(
+            request, "Bu sayfaya girmeye yetkiniz yeterli değildir, iyi okumalar dileriz.")
+        return redirect("index")
+
+
+def deleteArticle(request, id):
+
+    user = request.user
+
+    if user.is_authenticated and request.user.account_type == "accType2":
+
+        article = get_object_or_404(Article, id=id)
+
+        article.delete()
+
+        messages.success(request, "Makale Başarıyla Silindi")
+
         return redirect("article:dashboard")
 
-    return render(request, "addarticle.html", {"form": form})
+    else:
+        messages.error(
+            request, "Bu sayfaya girmeye yetkiniz yeterli değildir, iyi okumalar dileriz.")
+        return redirect("index")

@@ -89,15 +89,3 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-comment_date']
-
-
-# class Reply(models.Model):
-
-#     comment = models.ForeignKey(
-#         Comment, on_delete=models.CASCADE, verbose_name="Yorum", related_name="comments")
-#     reply_content = RichTextField("Yanıt")
-#     reply_author = models.CharField(max_length=50, verbose_name="İsim")
-#     reply_date = models.DateTimeField(auto_now_add=True)
-#     reply_photo = models.FileField(
-#         blank=True, null=True, verbose_name="Yanıta Fotograf Ekleyin"
-#     )
